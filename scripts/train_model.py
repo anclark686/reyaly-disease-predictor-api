@@ -1,12 +1,21 @@
+from pathlib import Path
+
+import joblib
 import pandas as pd
 from sklearn.model_selection import train_test_split
 from sklearn.linear_model import LogisticRegression
 from sklearn.metrics import accuracy_score
 from sklearn.ensemble import RandomForestClassifier
-import joblib
 
-X = pd.read_csv("data/processed/X.csv")
-y = pd.read_csv("data/processed/y.csv").squeeze()
+
+BASE_DIR = Path(__file__).resolve().parent.parent
+PROCESSED_DATA_DIR = BASE_DIR / "data" / "processed"
+ML_DIR = BASE_DIR / "app" / "ml"
+
+ML_DIR.mkdir(parents=True, exist_ok=True)
+
+X = pd.read_csv(PROCESSED_DATA_DIR / "X.csv")
+y = pd.read_csv(PROCESSED_DATA_DIR / "y.csv").squeeze()
 
 X_train, X_test, y_train, y_test = train_test_split(
     X, y, test_size=0.2, random_state=42
@@ -25,7 +34,7 @@ mean_probability = top_probabilities.mean()
 
 print("Mean Probability:", mean_probability)
 
-joblib.dump(model, "app/ml/lr_model.pkl")
+joblib.dump(model, ML_DIR / "lr_model.pkl")
 
 # model = RandomForestClassifier(
 #     n_estimators=200,
@@ -38,6 +47,6 @@ joblib.dump(model, "app/ml/lr_model.pkl")
 
 # print("RF Accuracy:", model.score(X_test, y_test))
 
-# joblib.dump(model, "app/ml/rf_model.pkl")
+# joblib.dump(model, ML_DIR / "rf_model.pkl")
 
 print("Done training!")
