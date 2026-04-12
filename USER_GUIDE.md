@@ -92,17 +92,22 @@ After downloading it:
 3. create a directory `backend/data/raw/` if it doesn't exist
 4. place the raw CSV at `backend/data/raw/diseases_symptoms.csv`
 
-Regenerate the processed data files:
-
-```powershell
-cd backend
-pipenv run python scripts/preprocess_data.py
-```
-
 Open a terminal in `backend` and run:
 
 ```powershell
 pipenv install
+```
+
+Regenerate the processed data files:
+
+```powershell
+pipenv run python scripts/preprocess_data.py
+```
+
+Start the backend:
+
+```powershell
+pipenv run uvicorn app.main:app --reload
 ```
 
 Open a second terminal in `frontend` and run:
@@ -111,17 +116,9 @@ Open a second terminal in `frontend` and run:
 bun install
 ```
 
-Start the backend:
+Start the frontend:
 
 ```powershell
-cd backend
-pipenv run uvicorn app.main:app --reload
-```
-
-Start the frontend in a second terminal:
-
-```powershell
-cd frontend
 bun dev
 ```
 
@@ -190,17 +187,22 @@ After downloading it:
 3. create a directory `backend/data/raw/` if it doesn't exist
 4. place the raw CSV at `backend/data/raw/diseases_symptoms.csv`
 
-Regenerate the processed data files:
-
-```bash
-cd backend
-pipenv run python scripts/preprocess_data.py
-```
-
 Open a terminal in `backend` and run:
 
 ```bash
 pipenv install
+```
+
+Regenerate the processed data files:
+
+```bash
+pipenv run python scripts/preprocess_data.py
+```
+
+Start the backend:
+
+```bash
+pipenv run uvicorn app.main:app --reload
 ```
 
 Open a second terminal in `frontend` and run:
@@ -209,17 +211,9 @@ Open a second terminal in `frontend` and run:
 bun install
 ```
 
-Start the backend:
+Start the frontend:
 
 ```bash
-cd backend
-pipenv run uvicorn app.main:app --reload
-```
-
-Start the frontend in a second terminal:
-
-```bash
-cd frontend
 bun dev
 ```
 
@@ -289,7 +283,6 @@ http://localhost:3000
 To stop either server:
 
 - press `Ctrl + C` in the terminal window where it is running
-
 
 ## Recommended Startup Order
 
