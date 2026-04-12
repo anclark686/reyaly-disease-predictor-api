@@ -12,7 +12,9 @@ FEATURES_PATH = BASE_DIR / "ml" / "features.pkl"
 
 
 class ModelService:
-    def __init__(self, model_path: Path = MODEL_PATH, features_path: Path = FEATURES_PATH):
+    def __init__(
+        self, model_path: Path = MODEL_PATH, features_path: Path = FEATURES_PATH
+    ):
         self.model_path = model_path
         self.features_path = features_path
         self.model = joblib.load(self.model_path)

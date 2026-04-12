@@ -2,11 +2,18 @@ import os
 import json
 from fastapi import APIRouter, HTTPException
 
-from app.models.schemas import SymptomResponse, PredictionRequest, PredictionResponse, VisualizationResponse, ModelConfidenceResponse
+from app.models.schemas import (
+    SymptomResponse,
+    PredictionRequest,
+    PredictionResponse,
+    VisualizationResponse,
+    ModelConfidenceResponse,
+)
 from app.services.predictor import model_service
 from app.services.visualizer import get_model_confidence_data, get_visualization_data
 
 router = APIRouter(prefix="/api")
+
 
 @router.get("/health")
 def health():

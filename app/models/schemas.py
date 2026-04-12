@@ -5,19 +5,23 @@ from typing import List
 class SymptomResponse(BaseModel):
     symptoms: dict[str, str]
 
+
 class PredictionRequest(BaseModel):
     symptoms: List[str]
+
 
 class DiseaseSummary(BaseModel):
     disease: str
     summary: str
     source: str
 
+
 class PredictionItem(BaseModel):
     disease: str
     probability: float
     percentage: float
     summary: DiseaseSummary
+
 
 class PredictionResponse(BaseModel):
     selected_symptoms: list[str]
@@ -27,24 +31,29 @@ class PredictionResponse(BaseModel):
     confidence_percentage: float
     top_predictions: list[PredictionItem]
 
+
 class VisualizationSummary(BaseModel):
     total_cases: int
     total_diseases: int
     total_symptoms: int
     average_symptoms_per_case: float
 
+
 class TopSymptom(BaseModel):
     symptom: str
     count: int
+
 
 class CorrelationHeatmapItem(BaseModel):
     xSymptom: str
     ySymptom: str
     correlation: float
 
+
 class SymptomCountDistributionItem(BaseModel):
     symptomCount: int
     cases: int
+
 
 class VisualizationData(BaseModel):
     summary: VisualizationSummary
@@ -53,15 +62,18 @@ class VisualizationData(BaseModel):
     symptom_correlation_heatmap: list[CorrelationHeatmapItem]
     symptom_count_distribution: list[SymptomCountDistributionItem]
 
+
 class VisualizationResponse(BaseModel):
     data: VisualizationData
     status: str = "success"
+
 
 class ConfidenceDistributionItem(BaseModel):
     rangeLabel: str
     count: int
     rangeStart: float
     rangeEnd: float
+
 
 class ModelConfidenceSummary(BaseModel):
     average_confidence: float
@@ -71,9 +83,11 @@ class ModelConfidenceSummary(BaseModel):
     top_three_accuracy: float
     test_case_count: int
 
+
 class ModelConfidenceData(BaseModel):
     summary: ModelConfidenceSummary
     confidence_distribution: list[ConfidenceDistributionItem]
+
 
 class ModelConfidenceResponse(BaseModel):
     data: ModelConfidenceData

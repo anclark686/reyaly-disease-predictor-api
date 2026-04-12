@@ -13,11 +13,7 @@ df = pd.read_csv(RAW_DATA_PATH)
 
 # clean column names
 df.columns = (
-    df.columns
-    .str.strip()
-    .str.lower()
-    .str.replace(" ", "_")
-    .str.replace("-", "_")
+    df.columns.str.strip().str.lower().str.replace(" ", "_").str.replace("-", "_")
 )
 
 # remove duplicates

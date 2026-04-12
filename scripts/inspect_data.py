@@ -30,4 +30,5 @@ symptoms = {col.lower().replace(" ", "_"): col.capitalize() for col in columns}
 
 with open("app/ml/symptoms_map.json", "w") as f:
     import json
+
     json.dump(symptoms, f, indent=2)

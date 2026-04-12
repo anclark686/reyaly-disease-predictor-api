@@ -64,14 +64,18 @@ def build_visualization_data() -> dict:
         {
             "xSymptom": x_symptom,
             "ySymptom": y_symptom,
-            "correlation": round(float(correlation_matrix.loc[y_symptom, x_symptom]), 2),
+            "correlation": round(
+                float(correlation_matrix.loc[y_symptom, x_symptom]), 2
+            ),
         }
         for y_symptom in heatmap_symptoms
         for x_symptom in heatmap_symptoms
     ]
 
     symptom_count_per_case = symptom_frame.sum(axis=1)
-    symptom_count_distribution_series = symptom_count_per_case.value_counts().sort_index()
+    symptom_count_distribution_series = (
+        symptom_count_per_case.value_counts().sort_index()
+    )
     symptom_count_distribution = [
         {"symptomCount": int(symptom_count), "cases": int(case_count)}
         for symptom_count, case_count in symptom_count_distribution_series.items()

@@ -5,7 +5,6 @@ import pandas as pd
 from sklearn.model_selection import train_test_split
 from sklearn.linear_model import LogisticRegression
 from sklearn.metrics import accuracy_score
-from sklearn.ensemble import RandomForestClassifier
 
 
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -35,6 +34,9 @@ mean_probability = top_probabilities.mean()
 print("Mean Probability:", mean_probability)
 
 joblib.dump(model, ML_DIR / "lr_model.pkl")
+
+
+# from sklearn.ensemble import RandomForestClassifier
 
 # model = RandomForestClassifier(
 #     n_estimators=200,
