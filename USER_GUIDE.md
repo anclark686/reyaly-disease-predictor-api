@@ -89,7 +89,8 @@ After downloading it:
 
 1. extract the archive on your machine
 2. rename the file `Diseases and Symptoms Dataset.csv` to `diseases_symptoms.csv`
-3. place the raw CSV at `backend/data/raw/diseases_symptoms.csv`
+3. create a directory `backend/data/raw/` if it doesn't exist
+4. place the raw CSV at `backend/data/raw/diseases_symptoms.csv`
 
 Regenerate the processed data files:
 
@@ -186,7 +187,8 @@ After downloading it:
 
 1. extract the archive on your machine
 2. rename the file `Diseases and Symptoms Dataset.csv` to `diseases_symptoms.csv`
-3. place the raw CSV at `backend/data/raw/diseases_symptoms.csv`
+3. create a directory `backend/data/raw/` if it doesn't exist
+4. place the raw CSV at `backend/data/raw/diseases_symptoms.csv`
 
 Regenerate the processed data files:
 
