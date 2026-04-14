@@ -17,14 +17,17 @@ VISUALIZATION_ARTIFACT_PATH = ARTIFACTS_DIR / "visualizations.json"
 MODEL_CONFIDENCE_ARTIFACT_PATH = ARTIFACTS_DIR / "model_confidence.json"
 
 
-def _load_dataset() -> pd.DataFrame:
-    return pd.read_csv(DATA_PATH)
-
-
 def _load_processed_data() -> tuple[pd.DataFrame, pd.Series]:
     X = pd.read_csv(PROCESSED_DATA_DIR / "X.csv")
     y = pd.read_csv(PROCESSED_DATA_DIR / "y.csv").squeeze()
     return X, y
+
+
+def _load_dataset() -> pd.DataFrame:
+    X, y = _load_processed_data()
+    df = X.copy()
+    df["diseases"] = y
+    return df
 
 
 def _write_artifact(path: Path, payload: dict) -> None:
@@ -54,22 +57,25 @@ def build_visualization_data() -> dict:
 
     top_symptoms_series = symptom_frame.sum().sort_values(ascending=False).head(15)
     top_symptoms = [
-        {"symptom": symptom, "count": int(count)}
+        {"symptom": symptom.replace("_", " ").capitalize(), "count": int(count)}
         for symptom, count in top_symptoms_series.items()
     ]
 
-    heatmap_symptoms = list(top_symptoms_series.head(10).index)
+    heatmap_symptoms = list(top_symptoms_series.head(15).index)
     correlation_matrix = symptom_frame[heatmap_symptoms].corr()
     symptom_correlation_heatmap = [
         {
-            "xSymptom": x_symptom,
-            "ySymptom": y_symptom,
+            "xSymptom": x_symptom.replace("_", " ").capitalize(),
+            "ySymptom": y_symptom.replace("_", " ").capitalize(),
             "correlation": round(
                 float(correlation_matrix.loc[y_symptom, x_symptom]), 2
             ),
         }
         for y_symptom in heatmap_symptoms
         for x_symptom in heatmap_symptoms
+    ]
+    heatmap_symptoms = [
+        symptom.replace("_", " ").capitalize() for symptom in heatmap_symptoms
     ]
 
     symptom_count_per_case = symptom_frame.sum(axis=1)
@@ -80,6 +86,34 @@ def build_visualization_data() -> dict:
         {"symptomCount": int(symptom_count), "cases": int(case_count)}
         for symptom_count, case_count in symptom_count_distribution_series.items()
     ]
+
+    disease_prevalence_series = df["diseases"].value_counts()
+    disease_prevalence = [
+        {"disease": str(disease).replace("_", " ").capitalize(), "count": int(count)}
+        for disease, count in disease_prevalence_series.items()
+    ]
+    disease_prevalence.sort(key=lambda x: x["disease"])
+
+    top_15_diseases = disease_prevalence_series.head(15).index
+    top_15_symptoms = top_symptoms_series.head(15).index
+
+    disease_symptom_matrix = []
+    for disease in top_15_diseases:
+        disease_data = df[df["diseases"] == disease]
+        for symptom in top_15_symptoms:
+            symptom_count = disease_data[symptom].sum()
+            disease_symptom_matrix.append(
+                {
+                    "disease": str(disease).replace("_", " ").capitalize(),
+                    "symptom": str(symptom).replace("_", " ").capitalize(),
+                    "count": int(symptom_count),
+                    "percentage": (
+                        round(float(symptom_count / len(disease_data) * 100), 2)
+                        if len(disease_data) > 0
+                        else 0
+                    ),
+                }
+            )
 
     return {
         "summary": {
@@ -92,6 +126,18 @@ def build_visualization_data() -> dict:
         "heatmap_symptoms": heatmap_symptoms,
         "symptom_correlation_heatmap": symptom_correlation_heatmap,
         "symptom_count_distribution": symptom_count_distribution,
+        "disease_prevalence": disease_prevalence,
+        "disease_symptom_matrix_legends": {
+            "diseases": [
+                str(disease).replace("_", " ").capitalize()
+                for disease in top_15_diseases
+            ],
+            "symptoms": [
+                str(symptom).replace("_", " ").capitalize()
+                for symptom in top_15_symptoms
+            ],
+        },
+        "disease_symptom_matrix": disease_symptom_matrix,
     }
 
 

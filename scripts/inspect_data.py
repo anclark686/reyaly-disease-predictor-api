@@ -20,8 +20,8 @@ print()
 print("df['diseases'].nunique()")
 print(df["diseases"].nunique())
 print()
-print("df['diseases'].value_counts().head(20)")
-print(df["diseases"].value_counts().head(20))
+print("df['diseases'].value_counts()")
+print(df["diseases"].value_counts())
 
 columns = [col for col in df.columns if col != "diseases"]
 columns = sorted(columns)

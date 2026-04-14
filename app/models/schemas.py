@@ -55,12 +55,27 @@ class SymptomCountDistributionItem(BaseModel):
     cases: int
 
 
+class DiseasePrevalenceItem(BaseModel):
+    disease: str
+    count: int
+
+
+class DiseaseSymptomMatrixItem(BaseModel):
+    disease: str
+    symptom: str
+    count: int
+    percentage: float
+
+
 class VisualizationData(BaseModel):
     summary: VisualizationSummary
     top_symptoms: list[TopSymptom]
     heatmap_symptoms: list[str]
     symptom_correlation_heatmap: list[CorrelationHeatmapItem]
     symptom_count_distribution: list[SymptomCountDistributionItem]
+    disease_prevalence: list[DiseasePrevalenceItem]
+    disease_symptom_matrix_legends: dict[str, list[str]]
+    disease_symptom_matrix: list[DiseaseSymptomMatrixItem]
 
 
 class VisualizationResponse(BaseModel):
