@@ -15,8 +15,6 @@ df.columns = (
     df.columns.str.strip().str.lower().str.replace(" ", "_").str.replace("-", "_")
 )
 
-df = df.drop_duplicates()
-
 X = df.drop("diseases", axis=1)
 y = df["diseases"]
 
